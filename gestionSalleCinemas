@@ -1,0 +1,333 @@
+openapi: 3.0.1
+info:
+  title: Gestion salle de cinema API
+  description: Global description of my API
+  version: 1.0.0
+servers:
+  - url: https://sallecine.com
+tags:
+  - name: Salles
+  - name: Films
+  - name: Projections
+paths:
+  /salles:
+    get:
+      tags:
+        - Salles
+      operationId: getSalles
+      summary: Get all salles
+      description: Get all salles with details
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: List of salles
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Salles'
+        '400':
+          description: Bad request
+  /Salles/{id}:
+    get:
+      tags:
+        - Salles
+      summary: Get a salles by id
+      description: Get a salles by id with details
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: Here's your salles
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Salles'
+        '400':
+          description: Bad request
+    delete:
+      tags:
+        - Salles
+      summary: Delete a salles
+      description: Delete a salles by id
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: Delete succesfully
+        '400':
+          description: Bad request
+  /Films:
+    get:
+      tags:
+        - Films
+      operationId: getFilms
+      summary: Get all films
+      description: Get all films with details
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: List of films
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Films'
+        '400':
+          description: Bad request
+    post:
+      tags:
+        - Films
+      operationId: createFilms
+      summary: Create new films
+      description: Create new filmss
+      requestBody:
+        description: Films to be created
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateFilms'
+        required: true
+      responses:
+        '200':
+          description: new film
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Films'
+        '400':
+          description: Bad request
+    put:
+      tags:
+        - Films
+      operationId: modifyFIlms
+      summary: modify Films
+      description: modify all films with details
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: films
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CreateFilms'
+        '400':
+          description: Bad request
+    patch:
+      tags:
+        - Films
+      operationId: updateFilms
+      summary: update new films
+      description: update new films
+      requestBody:
+        description: films to be update
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateFilms'
+            examples:
+              titre:
+                summary: change titre
+                description: Change titre
+                value:
+                  id: 10
+                  name: Spiderman
+              resumer:
+                summary: Change resumé
+                description: Change resumé
+                value:
+                  id: 10
+                  resumé: "pouvoir pouvoir"
+        required: true
+      responses:
+        '200':
+          description: List of films
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateFilms'
+        '400':
+          description: Bad request
+  /Films/{id}:
+    get:
+      tags:
+        - Films
+      summary: Get a films by id
+      description: Get a films by id with details
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: Here's your films
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CreateFilms'
+        '400':
+          description: Bad request
+    delete:
+      tags:
+        - Films
+      summary: Delete a films
+      description: Delete a films by id
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: Delete succesfully
+        '400':
+          description: Bad request
+  /Projections:
+    get:
+      tags:
+        - Projections
+      operationId: getProjections
+      summary: Get all projections
+      description: Get all projections with details
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: List of projection
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CreateProjection'
+        '400':
+          description: Bad request
+  /Projections/{id}:
+    get:
+      tags:
+        - Projections
+      summary: Get a projections by id
+      description: Get a projections by id with details
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: Here's your projections
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CreateProjection'
+        '400':
+          description: Bad request
+    delete:
+      tags:
+        - Salles
+      summary: Delete a projection
+      description: Delete a projections by id
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: Delete succesfully
+        '400':
+          description: Bad request
+components:
+  schemas:
+    CreateSalles:
+      type: object
+      properties:
+        numero:
+          type: integer
+          example: 1
+        capacité:
+          type: integer
+          example: 150
+    Salles:
+      allOf:
+        - $ref: '#/components/schemas/CreateSalles'
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 10
+    CreateFilms:
+      type: object
+      properties:
+        titre:
+          type: string
+          example: Titanic
+        duree:
+          type: string
+          example: 2h
+        resumé:
+          type: string
+          example: bateau qui coule
+        realisateru:
+          type: string
+          example: James Cameron
+        date_sortie:
+          type: string
+          format: date
+          example: '1997-17-12'
+    Films:
+      allOf:
+        - $ref: '#/components/schemas/CreateFilms'
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 10
+    CreateProjection:
+      type: object
+      properties:
+        film:
+          $ref: '#/components/schemas/Films'
+        salle:
+          $ref: '#/components/schemas/Salles'
+        diffusion:
+          type: string
+          example: 15h
